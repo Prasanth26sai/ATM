@@ -1,205 +1,352 @@
-#include<stdio.h> 
-#include<stdlib.h> 
-struct poly 
-{ 
-  int c,p; 
-  struct poly *next; 
-}*newnode; 
-struct poly *insert() 
-{ 
-  int n,i; 
-  struct poly *firstnode=NULL; 
-  struct poly *currentnode=NULL; 
-  printf("Enter the number of terms:"); 
-  scanf("%d",&n); 
-  for(i=0;i<n;i++) 
-  { 
-    newnode=(struct poly*)malloc(sizeof(struct poly)); 
-    newnode->next=NULL; 
-    printf("Enter the coefficient and power of the given polynomial:"); 
-    scanf("%d%d",&newnode->c,&newnode->p); 
-    if(firstnode==NULL) 
-    { 
-      firstnode=newnode; 
-      currentnode=newnode; 
-    } 
-    else 
-    { 
-      currentnode->next=newnode; 
-      currentnode=newnode; 
-    } 
-  }   
-  return firstnode; 
-} 
-void display(struct poly *temp) 
-{ 
-  while(temp->next!=NULL) 
-  { 
-    printf("%dX^%d+",temp->c,temp->p); 
-    temp=temp->next; 
-  } 
-  printf("%d",temp->c); 
-} 
-struct poly *add(struct poly *p1,struct poly *p2) 
-{ 
-  struct poly *firstnode=NULL; 
-  struct poly *currentnode=NULL; 
-  while((p1!=NULL)&&(p2!=NULL)) 
-  { 
-    newnode=(struct poly*)malloc(sizeof(struct poly)); 
-    newnode->next=NULL; 
-    if(p1->p==p2->p) 
-    { 
-      newnode->p=p1->p; 
-      newnode->c=p1->c+p2->c; 
-      p1=p1->next; 
-      p2=p2->next; 
-    } 
-    else if(p1->p>p2->p) 
-    { 
-      newnode->p=p1->p; 
-      newnode->c=p1->c; 
-      p1=p1->next; 
-    } 
-    else 
-    { 
-      newnode->p=p2->p; 
-      newnode->c=p2->c; 
-      p2=p2->next; 
-    } 
-    if(firstnode==NULL) 
-    { 
-      firstnode=newnode; 
-      currentnode=newnode; 
-    } 
-    else 
-    { 
-      currentnode->next=newnode; 
-      currentnode=newnode; 
-    } 
-  } 
-  return firstnode; 
-} 
- struct poly *sub(struct poly *p1,struct poly *p2) 
-{ 
-  struct poly *firstnode=NULL; 
-  struct poly *currentnode=NULL; 
-  while((p1!=NULL)&&(p2!=NULL)) 
-  { 
-    newnode=(struct poly*)malloc(sizeof(struct poly)); 
-    newnode->next=NULL; 
-    if(p1->p==p2->p) 
-    { 
-      newnode->p=p1->p; 
-      newnode->c=p1->c-p2->c; 
-      p1=p1->next; 
-      p2=p2->next; 
-    } 
-    else if(p1->p>p2->p) 
-    { 
-      newnode->p=p1->p; 
-      newnode->c=p1->c; 
-      p1=p1->next; 
-    } 
-    else 
-    { 
-      newnode->p=p2->p; 
-      newnode->c=p2->c; 
-      p2=p2->next; 
-    } 
-    if(firstnode==NULL) 
-    { 
-      firstnode=newnode; 
-      currentnode=newnode; 
-    } 
-    else 
-    { 
-      currentnode->next=newnode; 
-      currentnode=newnode; 
-    } 
-  } 
-    while((p1!=NULL)||(p2!=NULL)) 
-  { 
-    newnode=(struct poly*)malloc(sizeof(struct poly)); 
-    newnode->next=NULL; 
-    if(p1!=NULL) 
-    { 
-      newnode->c=p1->c; 
-      newnode->p=p1->p; 
-      p1=p1->next; 
-    } 
-    else 
-    { 
-      newnode->p=p2->p; 
-      newnode->c=p2->c; 
-      p2=p2->next; 
-    } 
-    if(firstnode==NULL) 
-    { 
-      firstnode=newnode; 
-      currentnode=newnode; 
-    } 
-    else 
-    { 
-      currentnode->next=newnode; 
-      currentnode=newnode; 
-    } 
-  } 
-  return firstnode; 
-} 
-struct poly *mul(struct poly *p1,struct poly *p2) 
-{ 
-  struct poly *firstnode=NULL; 
-  struct poly *currentnode=NULL; 
-  while((p1!=NULL)&&(p2!=NULL)) 
-  { 
-    newnode=(struct poly*)malloc(sizeof(struct poly)); 
-    newnode->next=NULL; 
-    if(p1->p==p2->p) 
-    { 
-      newnode->p=p1->p*p2->p; 
-      newnode->c=p1->c*p2->c; 
-      p1=p1->next; 
-      p2=p2->next; 
-    } 
-    else if(p1->p>p2->p) 
-    { 
-      newnode->p=p1->p; 
-      newnode->c=p1->c; 
-      p1=p1->next; 
-    } 
-    else 
-    { 
-      newnode->p=p2->p; 
-      newnode->c=p2->c; 
-      p2=p2->next; 
-    } 
-    if(firstnode==NULL) 
-    { 
-      firstnode=newnode; 
-      currentnode=newnode; 
-    } 
-    else 
-    { 
-      currentnode->next=newnode; 
-      currentnode=newnode; 
-    } 
-  } 
-  return firstnode; 
-} 
-void main() 
-{ 
-  struct poly *p1,*p2,*res; 
-  printf("\n First polynomial\n"); 
-  p1=insert(); 
-  display(p1); 
-  printf("\n Second polynomial\n"); 
-  p2=insert(); 
-  display(p2); 
-  printf("\n The resultant polynomial is:"); 
-  res=add(p1,p2); 
-  display(res); 
-  printf("\n The resultant polynomial is:"); 
-  res=sub(p1,p2); 
-  display(res); 
-  printf("\n The resultant
+package projects;
+
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import java.awt.Font;
+import javax.swing.JTextField;
+import javax.swing.JPasswordField;
+import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.io.BufferedReader;
+import java.io.FileReader;
+
+
+public class atm {
+
+	private JFrame frame;
+	private JTextField txtac,txtdpwn,txtdpwg,txtdpwa,txtdpwt;
+	private JPasswordField passwordField;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					atm window = new atm();
+					window.frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the application.
+	 */
+	public atm() {
+		initialize();
+	}
+
+	/**
+	 * Initialize the contents of the frame.
+	 */
+	private void initialize() {
+		frame = new JFrame();
+		frame.setBounds(100, 100, 822, 641);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.getContentPane().setLayout(null);
+		
+		JLabel lblNewLabel = new JLabel("WELCOME TO ATM");
+		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 48));
+		lblNewLabel.setBounds(159, 25, 476, 58);
+		frame.getContentPane().add(lblNewLabel);
+		
+		JLabel lblNewLabel_1 = new JLabel("ENTER ACCOUNT NUMBER");
+		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 24));
+		lblNewLabel_1.setBounds(36, 217, 318, 41);
+		frame.getContentPane().add(lblNewLabel_1);
+		
+		JLabel lblNewLabel_1_1 = new JLabel("ENTER PASSWORD");
+		lblNewLabel_1_1.setFont(new Font("Tahoma", Font.BOLD, 24));
+		lblNewLabel_1_1.setBounds(36, 283, 318, 41);
+		frame.getContentPane().add(lblNewLabel_1_1);
+		
+		txtac = new JTextField();
+		txtac.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyTyped(KeyEvent e)
+			{
+				char c=e.getKeyChar();
+				if(c>='a' && c<='z' || c>='A' && c<='Z')
+				{
+					e.consume();					
+				    JOptionPane.showMessageDialog(null, "Enter Numbers only");
+				    
+				 }
+			}
+		});
+				txtac.setFont(new Font("Tahoma", Font.BOLD, 25));
+		txtac.setBounds(393, 217, 307, 41);
+		frame.getContentPane().add(txtac);
+		txtac.setColumns(10);
+		
+		passwordField = new JPasswordField();
+		passwordField.setBounds(393, 283, 312, 36);
+		frame.getContentPane().add(passwordField);
+		
+		JButton btnNewButton = new JButton("CLEAR");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) 
+			{
+				txtac.setText(" ");
+				passwordField.setText(" ");
+			}
+		});
+		btnNewButton.setFont(new Font("Tahoma", Font.BOLD, 33));
+		btnNewButton.setBounds(118, 404, 158, 41);
+		frame.getContentPane().add(btnNewButton);
+		
+		JButton btnOk = new JButton("OK");
+		btnOk.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) 
+			{
+				
+				if(txtac.getText().isEmpty())
+					txtac.requestFocus();
+				if(passwordField.getText().isEmpty())
+					passwordField.requestFocus();
+				
+				JFrame frame = new JFrame();
+				frame.setVisible(true);
+				frame.setBounds(100, 100, 822, 641);
+				frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+				frame.getContentPane().setLayout(null);
+				
+				
+				JButton btnwd = new JButton("WITHDRAWAL");
+				
+				btnwd.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) 
+					{
+						JFrame frame = new JFrame();
+						frame.setVisible(true);
+						frame.setBounds(100, 100, 822, 641);
+						frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+						frame.getContentPane().setLayout(null);
+						
+					
+						txtdpwt = new JTextField();
+						txtdpwt.setBounds(10, 256, 269, 44);
+						frame.getContentPane().add(txtdpwt);
+						txtdpwt.setColumns(10);
+						
+						txtdpwg = new JTextField();
+						txtdpwg.setBounds(10, 202, 269, 44);
+						frame.getContentPane().add(txtdpwg);
+						txtdpwg.setColumns(10);
+						
+						txtdpwa = new JTextField();
+						txtdpwa.setBounds(10, 148, 269, 44);
+						frame.getContentPane().add(txtdpwa);
+						txtdpwa.setColumns(10);
+						
+						txtdpwn = new JTextField();
+						txtdpwn.addActionListener(new ActionListener() {
+							public void actionPerformed(ActionEvent e) 
+							{
+								try 
+								{FileReader Fr=new FileReader("C:\\Users\\B.JAYA SAI REDDY\\OneDrive\\Desktop\\PROJECT\\atm.csv");
+							    BufferedReader br=new BufferedReader(Fr);
+							    String x;
+							    String [] S=new String[8];
+							    while((x=br.readLine())!=null)
+							    {
+							    	S=x.split(",");
+							    }
+							    txtdpwn.setText("NAME IS  :"+S[0]);
+							    txtdpwa.setText("AGE IS  :"+S[1]);
+							    txtdpwg.setText("GENDER IS :"+S[2]);
+							    txtdpwt.setText("TOTAL  :"+S[3]);
+							    br.close();
+									}
+									catch(Exception E)
+									{
+										System.out.println(E.getMessage());
+									}
+																	
+							}});
+						txtdpwn.setBounds(10, 94, 269, 44);
+						frame.getContentPane().add(txtdpwn);
+						txtdpwn.setColumns(10);
+					}
+				});
+				btnwd.setBounds(29,73,345,66);
+				btnwd.setFont(new Font("Tahoma", Font.BOLD, 30));
+				frame.getContentPane().add(btnwd);
+				
+				JButton btnd = new JButton("DEPOSIT");
+				
+				btnd.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) 
+					{
+						JFrame frame = new JFrame();
+						frame.setVisible(true);
+						frame.setBounds(100, 100, 822, 641);
+						frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+						frame.getContentPane().setLayout(null);
+						
+					
+								txtdpwt = new JTextField();
+								txtdpwt.setBounds(10, 256, 269, 44);
+								frame.getContentPane().add(txtdpwt);
+								txtdpwt.setColumns(10);
+								
+								txtdpwg = new JTextField();
+								txtdpwg.setBounds(10, 202, 269, 44);
+								frame.getContentPane().add(txtdpwg);
+								txtdpwg.setColumns(10);
+								
+								txtdpwa = new JTextField();
+								txtdpwa.setBounds(10, 148, 269, 44);
+								frame.getContentPane().add(txtdpwa);
+								txtdpwa.setColumns(10);
+								
+								txtdpwn = new JTextField();
+								txtdpwn.addActionListener(new ActionListener() {
+									public void actionPerformed(ActionEvent e) 
+									{
+										try 
+										{FileReader Fr=new FileReader("C:\\Users\\B.JAYA SAI REDDY\\OneDrive\\Desktop\\PROJECT\\atm.csv");
+									    BufferedReader br=new BufferedReader(Fr);
+									    String x;
+									    String [] S=new String[8];
+									    while((x=br.readLine())!=null)
+									    {
+									    	S=x.split(",");
+									    }
+									    txtdpwn.setText("NAME IS  :"+S[0]);
+									    txtdpwa.setText("AGE IS  :"+S[1]);
+									    txtdpwg.setText("GENDER IS :"+S[2]);
+									    txtdpwt.setText("TOTAL  :"+S[3]);
+									    br.close();
+											}
+											catch(Exception E)
+											{
+												System.out.println(E.getMessage());
+											}
+										
+										
+											
+											
+											
+									}});
+								txtdpwn.setBounds(10, 94, 269, 44);
+								frame.getContentPane().add(txtdpwn);
+								txtdpwn.setColumns(10);
+							}
+						
+						
+					
+				});
+				btnd.setBounds(29,152,345,66);
+				btnd.setFont(new Font("Tahoma", Font.BOLD, 30));
+				frame.getContentPane().add(btnd);
+				
+				JButton btnb = new JButton("BALANCE");
+				
+				btnb.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) 
+					{
+						JFrame frame = new JFrame();
+						frame.setVisible(true);
+						frame.setBounds(100, 100, 822, 641);
+						frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+						frame.getContentPane().setLayout(null);
+						
+						
+
+						txtdpwt = new JTextField();
+						txtdpwt.setBounds(10, 256, 269, 44);
+						frame.getContentPane().add(txtdpwt);
+						txtdpwt.setColumns(10);
+						
+						txtdpwg = new JTextField();
+						txtdpwg.setBounds(10, 202, 269, 44);
+						frame.getContentPane().add(txtdpwg);
+						txtdpwg.setColumns(10);
+						
+						txtdpwa = new JTextField();
+						txtdpwa.setBounds(10, 148, 269, 44);
+						frame.getContentPane().add(txtdpwa);
+						txtdpwa.setColumns(10);
+						
+						txtdpwn = new JTextField();
+						txtdpwn.addActionListener(new ActionListener() {
+							public void actionPerformed(ActionEvent e) 
+							{
+								try 
+								{FileReader Fr=new FileReader("C:\\Users\\B.JAYA SAI REDDY\\OneDrive\\Desktop\\PROJECT\\atm.csv");
+							    BufferedReader br=new BufferedReader(Fr);
+							    String x;
+							    String [] S=new String[8];
+							    while((x=br.readLine())!=null)
+							    {
+							    	S=x.split(",");
+							    }
+							    txtdpwn.setText("NAME IS  :"+S[0]);
+							    txtdpwa.setText("AGE IS  :"+S[1]);
+							    txtdpwg.setText("GENDER IS :"+S[2]);
+							    txtdpwt.setText("TOTAL  :"+S[3]);
+							    br.close();
+									}
+									catch(Exception E)
+									{
+										System.out.println(E.getMessage());
+									}
+								
+								
+									
+									
+									
+							}});
+						txtdpwn.setBounds(10, 94, 269, 44);
+						frame.getContentPane().add(txtdpwn);
+						txtdpwn.setColumns(10);
+					}
+		
+				});
+				btnb.setBounds(29,230,345,66);
+				btnb.setFont(new Font("Tahoma", Font.BOLD, 30));
+				frame.getContentPane().add(btnb);
+				
+				JButton btns = new JButton("SETTINGS");
+				
+				btns.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) 
+					{
+						JFrame frame = new JFrame();
+						frame.setVisible(true);
+						frame.setBounds(100, 100, 822, 641);
+						frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+						frame.getContentPane().setLayout(null);
+						
+						JButton btnsett = new JButton("CHANGE PROPILE");
+						btnsett.setBounds(29,73,345,66);
+						btnsett.setFont(new Font("Tahoma", Font.BOLD, 30));
+						frame.getContentPane().add(btnsett);
+						
+						JButton btnpass = new JButton("CHANGE THE PASSWORD");
+						btnpass.setBounds(29,152,345,66);
+						btnpass.setFont(new Font("Tahoma", Font.BOLD, 20));
+						frame.getContentPane().add(btnpass);
+					}
+				});
+				btns.setBounds(29,310,345,66);
+				btns.setFont(new Font("Tahoma", Font.BOLD, 30));
+				frame.getContentPane().add(btns);
+			}
+		});
+		btnOk.setFont(new Font("Tahoma", Font.BOLD, 33));
+		btnOk.setBounds(419, 404, 158, 41);
+		frame.getContentPane().add(btnOk);
+	}
+}
